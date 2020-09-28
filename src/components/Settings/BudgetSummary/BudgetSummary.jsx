@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { expenseBookContext } from "../../../context/ExpenseBookContext";
 
 const BudgetSummary = () => {
-  const { expenseBook } = useContext(expenseBookContext);
+  const { expenseBook, getLeftOver } = useContext(expenseBookContext);
 
   return (
     <div>
@@ -10,8 +10,7 @@ const BudgetSummary = () => {
       <p>Budget: {expenseBook.totalBudget}</p>
       <p>Savings: {expenseBook.totalSavings}</p>
       <p>
-        Remaining:
-        {Number(expenseBook.totalBudget) - Number(expenseBook.totalSavings)}
+        Remaining: {getLeftOver()}
       </p>
     </div>
   );

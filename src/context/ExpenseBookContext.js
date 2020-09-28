@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 
 export const expenseBookContext = createContext();
@@ -9,12 +9,23 @@ const defaultState = {
   totalBudget: "",
   totalSavings: "",
   totalExpense: "",
+  leftOver: "",
   categories: [],
   expenses: [],
 };
 
 const ExpenseBookProvider = (props) => {
+  
   const [expenseBook, setExpenseBook] = useState(defaultState);
+
+useEffect(() => {
+    const {totalBudget, totalSavings, totalExpense} = expenseBook
+    const remaingAmount = Number(totalBudget) - Number(totalSavings) - Number(totalExpense)
+    setExpenseBook({
+      ...expenseBook,
+      leftOver: remaingAmount
+    })
+},[expenseBook.totalBudget, expenseBook.totalSavings, expenseBook.totalExpense ])
 
   const addExpense = (expenseObj) => {
     // crete a Date Field. in the format of year, month, day
@@ -36,9 +47,11 @@ const ExpenseBookProvider = (props) => {
   };
 
   const addCategory = (categoryObj) => {
+    const newTotal = Number(expenseBook.totalExpense) + Number(categoryObj.amount)
     setExpenseBook({
       ...expenseBook,
       categories: [...expenseBook.categories, categoryObj],
+      totalExpense: newTotal
     });
   };
 
@@ -63,6 +76,10 @@ const ExpenseBookProvider = (props) => {
     })
   }
 
+  const getLeftOver = () => {
+    return (expenseBook.leftOver)
+  }
+
   const providerObj = {
     expenseBook,
     addExpense,
@@ -70,7 +87,8 @@ const ExpenseBookProvider = (props) => {
     getCategories,
     addCategory,
     addTotalBudget,
-    setTotalSavings
+    setTotalSavings,
+    getLeftOver
   };
 
   return (
