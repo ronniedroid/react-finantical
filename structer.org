@@ -1,0 +1,19 @@
+#+TITLE: Project structure
+
+* App
+
+- useState
+- useEffict
+
+** Navbar
+** ExpensesPage
+*** AddExpense
+*** Expenses
+**** Expense
+** SettingsPage
+*** AddBudget
+*** SetSavings
+*** AddCategory
+** SummaryPage
+*** Months
+**** Month
