@@ -100,3 +100,33 @@ select {
 .expenses {
   min-height: 100%;
 }
+
+.budget-section-forms {
+  display: grid;
+  grid-template:
+    "addbudget summary" 1fr
+    "setsavings summary" 1fr / 1fr 1fr;
+  grid-gap: 0.5rem;
+}
+
+.add-budget-form {
+  grid-area: addbudget;
+}
+.set-savings-form {
+  grid-area: setsavings;
+}
+.budget-summary-form {
+  grid-area: summary;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.george {
+  background-color: blue;
+  color: white;
+  padding: 5px;
+  margin: 5px;
+  width: 100%;
+}

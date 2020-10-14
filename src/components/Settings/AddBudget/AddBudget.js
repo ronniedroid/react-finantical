@@ -3,7 +3,7 @@ import { expenseBookContext } from "../../../context/ExpenseBookContext";
 
 const AddBudget = () => {
   const defaultState = {
-    totalBudget: ""
+    totalBudget: "",
   };
 
   const [newBudget, setNewBudget] = useState(defaultState);

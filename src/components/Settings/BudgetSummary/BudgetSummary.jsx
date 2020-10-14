@@ -5,13 +5,11 @@ const BudgetSummary = () => {
   const { expenseBook, getLeftOver } = useContext(expenseBookContext);
 
   return (
-    <div>
+    <div className="budget-summary-form">
       <h4>Info</h4>
       <p>Budget: {expenseBook.totalBudget}</p>
       <p>Savings: {expenseBook.totalSavings}</p>
-      <p>
-        Remaining: {getLeftOver()}
-      </p>
+      <p>Remaining: {getLeftOver()}</p>
     </div>
   );
 };

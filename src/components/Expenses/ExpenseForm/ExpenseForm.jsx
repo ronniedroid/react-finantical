@@ -10,21 +10,33 @@ const ExpenseForm = () => {
 
   const [options, setOptions] = useState();
   const [newExpense, setNewExpense] = useState(defaultOptions);
-  const { getCategories, addExpense } = useContext(expenseBookContext);
-  const formRef = useRef()
+  const { getCategories, addExpense, getExpenses } = useContext(
+    expenseBookContext
+  );
+  const [oldExpenses, setOldExpenses] = useState();
+
+  const formRef = useRef();
 
   useEffect(() => {
     setOptions(getCategories());
+    setOldExpenses(getExpenses());
   }, []);
 
   const submitExpense = (e) => {
-    e.preventDefault()
-    addExpense(newExpense)
-    setNewExpense(defaultOptions)
-    formRef.current.reset()
-  }
+    e.preventDefault();
+    addExpense(newExpense);
+    setNewExpense(defaultOptions);
+    formRef.current.reset();
+  };
 
   const addExpenseHandler = (e) => {
+    const filteredCategories = options.filter(
+      (op) => op.name === e.target.value
+    );
+    if (filteredCategories.length > 0) {
+      let categoryLimit = filteredCategories[0].amount;
+      console.log(categoryLimit);
+    }
     setNewExpense({
       ...newExpense,
       [e.target.name]: e.target.value,
@@ -44,13 +56,17 @@ const ExpenseForm = () => {
           value={newExpense.amount}
           type="text"
           name="amount"
-        className="expense-amount-input"
+          className="expense-amount-input"
         />
       </label>
       <select onChange={addExpenseHandler} name="type">
         <option value="select">Select</option>
         {options.map((opt, i) => {
-          return <option value={opt.name} key={i}>{opt.name}</option>;
+          return (
+            <option value={opt.name} key={i}>
+              {opt.name}
+            </option>
+          );
         })}
       </select>
       <label className="expense-desc-label">

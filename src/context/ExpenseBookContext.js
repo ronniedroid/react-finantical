@@ -15,17 +15,21 @@ const defaultState = {
 };
 
 const ExpenseBookProvider = (props) => {
-  
   const [expenseBook, setExpenseBook] = useState(defaultState);
 
-useEffect(() => {
-    const {totalBudget, totalSavings, totalExpense} = expenseBook
-    const remaingAmount = Number(totalBudget) - Number(totalSavings) - Number(totalExpense)
+  useEffect(() => {
+    const { totalBudget, totalSavings, totalExpense } = expenseBook;
+    const remaingAmount =
+      Number(totalBudget) - Number(totalSavings) - Number(totalExpense);
     setExpenseBook({
       ...expenseBook,
-      leftOver: remaingAmount
-    })
-},[expenseBook.totalBudget, expenseBook.totalSavings, expenseBook.totalExpense ])
+      leftOver: remaingAmount,
+    });
+  }, [
+    expenseBook.totalBudget,
+    expenseBook.totalSavings,
+    expenseBook.totalExpense,
+  ]);
 
   const addExpense = (expenseObj) => {
     // crete a Date Field. in the format of year, month, day
@@ -47,11 +51,12 @@ useEffect(() => {
   };
 
   const addCategory = (categoryObj) => {
-    const newTotal = Number(expenseBook.totalExpense) + Number(categoryObj.amount)
+    const newTotal =
+      Number(expenseBook.totalExpense) + Number(categoryObj.amount);
     setExpenseBook({
       ...expenseBook,
       categories: [...expenseBook.categories, categoryObj],
-      totalExpense: newTotal
+      totalExpense: newTotal,
     });
   };
 
@@ -60,25 +65,25 @@ useEffect(() => {
   };
 
   const addTotalBudget = (budgetObj) => {
-    const currentBudget = Number(expenseBook.totalBudget)
-    const newBudget = Number(budgetObj.totalBudget) + currentBudget
+    const currentBudget = Number(expenseBook.totalBudget);
+    const newBudget = Number(budgetObj.totalBudget) + currentBudget;
     setExpenseBook({
       ...expenseBook,
-      totalBudget: String(newBudget)
-    })
+      totalBudget: String(newBudget),
+    });
   };
 
   const setTotalSavings = (savingObj) => {
-    const newSavings = Number(savingObj.totalSavings)
+    const newSavings = Number(savingObj.totalSavings);
     setExpenseBook({
       ...expenseBook,
-      totalSavings: String(newSavings)
-    })
-  }
+      totalSavings: String(newSavings),
+    });
+  };
 
   const getLeftOver = () => {
-    return (expenseBook.leftOver)
-  }
+    return expenseBook.leftOver;
+  };
 
   const providerObj = {
     expenseBook,
@@ -88,7 +93,7 @@ useEffect(() => {
     addCategory,
     addTotalBudget,
     setTotalSavings,
-    getLeftOver
+    getLeftOver,
   };
 
   return (
