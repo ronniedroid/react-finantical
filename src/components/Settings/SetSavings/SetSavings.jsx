@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { expenseBookContext } from "../../../context/ExpenseBookContext";
+import FormErr from "../../FormErr.jsx"
 
 const SetSavings = () => {
   const defaultSavings = {
@@ -9,6 +10,7 @@ const SetSavings = () => {
   const [newSavings, setNewSavings] = useState(defaultSavings);
   const [isEditing, setIsEditing] = useState(false);
   const { setTotalSavings, expenseBook } = useContext(expenseBookContext);
+  const [canSetSaving, setCanSetSaving] = useState(true)
 
   const submitSavingsHandler = (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ const SetSavings = () => {
 
   const savingsHandler = (e) => {
     if (e.target.value > Number(expenseBook.totalBudget)) {
-      alert("Savings can't be bigger than the total budget");
+      setCanSetSaving(false)
     } else {
       setNewSavings({
         ...newSavings,
@@ -30,7 +32,6 @@ const SetSavings = () => {
   const editHandler = () => {
     setIsEditing(!isEditing);
     setNewSavings({ totalSavings: String(expenseBook.totalSavings) });
-    console.log("made it");
   };
 
   const updateHandler = () => {
@@ -38,6 +39,10 @@ const SetSavings = () => {
     setIsEditing(!isEditing);
     setNewSavings({ totalSavings: "" });
   };
+
+  const clearTheError = () => {
+    setTimeout(() => setCanSetSaving(true), 3000)
+  }
 
   return (
     <div className="set-savings-form">
@@ -70,6 +75,7 @@ const SetSavings = () => {
           <button onClick={editHandler}>Edit</button>
         )}
       </form>
+      {!canSetSaving && <FormErr clearMessage={clearTheError} message={"Savings can't be bigger than total budget"} />}
     </div>
   );
 };

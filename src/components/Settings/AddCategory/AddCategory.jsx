@@ -1,5 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { expenseBookContext } from "../../../context/ExpenseBookContext";
+import FormErr from "../../FormErr.jsx"
+
 
 const AddCategory = () => {
   const defaultState = {
@@ -9,12 +11,33 @@ const AddCategory = () => {
 
   const [newCategory, setNewCategory] = useState(defaultState);
 
-  const { addCategory } = useContext(expenseBookContext);
+  const { addCategory, getLeftOver } = useContext(expenseBookContext);
+
+  const [theLimit, setTheLimit] = useState(0)
+  const [canAdd, setCanAdd] = useState(true)
+
+  useEffect(() => {
+    setTheLimit(getLeftOver())
+  },[getLeftOver()])
+
+  const validateCategory = () => {
+    if (Number(newCategory.amount) > Number(theLimit)) {
+      setCanAdd(false)
+      return false
+    }
+    return true
+  }
+
+  const clearMessage = () => {
+    setTimeout(() => setCanAdd(true), 3000)
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (validateCategory()) {
     addCategory(newCategory);
     setNewCategory(defaultState);
+    }
   };
 
   const changeHandler = (e) => {
@@ -47,6 +70,7 @@ const AddCategory = () => {
           />
         </label>
         <button className="add-category-btn">Add</button>
+        {!canAdd && <FormErr clearMessage={clearMessage} message={"Category limit bigger than remaining budget"}/>}
       </form>
     </div>
   );
